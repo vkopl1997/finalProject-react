@@ -16,3 +16,4 @@ export const Paginate = ({totalPages,currentPage,changePage,queryKey}) => {
     />
   )
 };
+// console.log('sss');

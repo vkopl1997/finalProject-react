@@ -35,8 +35,8 @@ export const CategoryProducts = () => {
   const categoryProducts = useCategoryProducts();
   const dispatch = useDispatch();
   useEffect(()=>{
-     changePage('page',1)
-  },[sort])
+     changePage('page',1);
+  },[sort]);
   useEffect(() => {
     dispatch(fetchCategoryProducts(`${categoryName}?page=${page}&size=4&sort=${sort}`))
   }, [categoryName,page,sort,dispatch]);
