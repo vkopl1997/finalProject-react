@@ -16,7 +16,7 @@ const StyledBoxHeader = styled(Box)(()=>({
   fontSize: '48px',
   letterSpacing: '2px',
   padding:'10px',
-  color: '#adb5bd',
+  color: '#FFF',
 }));
 
 const StyledPaginate = styled(Box)(()=>({
@@ -31,11 +31,14 @@ const StyledPaginate = styled(Box)(()=>({
 export const CategoryProducts = () => {
   const {categoryName} = useParams();
   const { value: page, changeQueryValue: changePage } = useQueryParam('page');
-  const { value: sort,changeQueryValue: changeSort  } = useQueryParam('sort');
+  const { value: sort, changeQueryValue: changeSort  } = useQueryParam('sort');
   const categoryProducts = useCategoryProducts();
   const dispatch = useDispatch();
+  useEffect(()=>{
+     changePage('page',1)
+  },[sort])
   useEffect(() => {
-    dispatch(fetchCategoryProducts(`${categoryName}?page=${page}&size=2&sort=${sort}`))
+    dispatch(fetchCategoryProducts(`${categoryName}?page=${page}&size=4&sort=${sort}`))
   }, [categoryName,page,sort,dispatch]);
   return (
     <Box sx={{height:'100%',marginLeft:'3%'}}>

@@ -40,7 +40,7 @@ const StyledButton = styled(Button)(()=>({
 
 const StyledLink = styled(Link)(()=>({
   textDecoration: 'none',
-  color: 'gray',
+  color: '#FFF',
 }))
 
 const StyledCart = styled(Card)(()=>({

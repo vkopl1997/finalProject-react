@@ -12,7 +12,6 @@ export const Paginate = ({totalPages,currentPage,changePage,queryKey}) => {
       page= {+currentPage}
       onChange={(_,value)=>{
       changePage(queryKey,value)
-
     }}
     />
   )
