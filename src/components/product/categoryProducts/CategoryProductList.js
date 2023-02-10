@@ -5,6 +5,7 @@ import { Grid } from '@mui/material'
 import { GridComponent } from '../../shared';
 
 export const CategoryProductList = () => {
+
   const categoryProducts = useCategoryProducts();
   // console.log('ddfgggg',useCategoryProducts());
   return ( 

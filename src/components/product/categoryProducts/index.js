@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchCategoryProducts, useCategoryProducts } from '../../../redux'
@@ -7,6 +7,8 @@ import { Paginate } from './Paginate';
 import { useQueryParam } from '../../../application';
 import { Sort } from './Sort';
 import { styled, Box } from '@mui/system';
+import { Loading } from '../../shared';
+
 
 const StyledBoxHeader = styled(Box)(()=>({
   display: 'flex',
@@ -32,6 +34,7 @@ export const CategoryProducts = () => {
   const {categoryName} = useParams();
   const { value: page, changeQueryValue: changePage } = useQueryParam('page');
   const { value: sort, changeQueryValue: changeSort  } = useQueryParam('sort');
+  const [loading, setLoading] = useState(true);
   const categoryProducts = useCategoryProducts();
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -39,10 +42,13 @@ export const CategoryProducts = () => {
   },[sort]);
   useEffect(() => {
     dispatch(fetchCategoryProducts(`${categoryName}?page=${page}&size=4&sort=${sort}`))
+    .then(() => setLoading(false));
   }, [categoryName,page,sort,dispatch]);
   return (
     <Box sx={{height:'100%',marginLeft:'3%'}}>
-      <StyledBoxHeader>{categoryName}</StyledBoxHeader>
+      { loading ? <Loading/> :
+      <>
+        <StyledBoxHeader>{categoryName}</StyledBoxHeader>
       <Sort changePage={changePage} sort={sort} changeSort={changeSort}/>
       <CategoryProductList  />
       <StyledPaginate>
@@ -52,7 +58,9 @@ export const CategoryProducts = () => {
           changePage={changePage}
           queryKey='page'
         />
-      </StyledPaginate>  
+      </StyledPaginate>
+      </>
+      }  
     </Box>
   )
 }

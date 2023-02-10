@@ -4,8 +4,9 @@ import {Box, styled}  from '@mui/material'
 import { Header } from './components/header';
 import { useDispatch } from 'react-redux';
 import { fetchCart, fetchHomePageProducts, useUserInfo } from './redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SideBar } from './components/sidebar/SideBar';
+import { Loading } from './components/shared';
 
 
 
@@ -28,8 +29,10 @@ const StyledBox = styled(Box)(()=>({
 function App() {
   const dispatch = useDispatch();
   const userInfo = useUserInfo();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    dispatch(fetchHomePageProducts());
+    dispatch(fetchHomePageProducts()).then(() => setLoading(false));
     if(userInfo){
       dispatch(fetchCart(userInfo._id))
     }
@@ -40,10 +43,13 @@ function App() {
       <Header />
       <SideBar />
       <StyledBox>
-        <StyledContentContainer>
-          <RoutesComponents/>
-        </StyledContentContainer> 
-      </StyledBox>  
+      {loading?
+        <Loading/> : 
+      <StyledContentContainer>
+        <RoutesComponents/>
+      </StyledContentContainer> 
+      } 
+      </StyledBox> 
     </Box>
   );
 };

@@ -6,7 +6,8 @@ import { rateProduct,  useSingleProduct, useUserInfo } from '../../../redux';
 import { useEffect,useState } from 'react'
 import { fetchSingleProductById,setSelectedProduct,addToCart,useCartItems,removeFromCart } from '../../../redux';
 import { isUserAdmin } from '../../../application';
-import { Rating } from '../Rating'
+import { Rating } from '../Rating';
+import { Loading } from '../../shared';
 
  const StyledBoxButton = styled(Box)(()=>({
   width:'100%',
@@ -63,6 +64,7 @@ export const DetailedProduct = () => {
     const navigate = useNavigate();
     const cartItems = useCartItems();
     const isProductInCart = cartItems?.find((item)=>item.product._id === singleProduct?._id);
+    const [loading, setLoading] = useState(true);
    
     const onEdit = () =>{
       dispatch(setSelectedProduct({
@@ -101,14 +103,15 @@ export const DetailedProduct = () => {
   // console.log(singleProduct);
 
     useEffect(()=>{
-      dispatch(fetchSingleProductById({id: state.id,category:categoryName}))
+      dispatch(fetchSingleProductById({id: state.id,category:categoryName})).then(() => setLoading(false))
     },[state.id,categoryName,dispatch])
     //  console.log('djdj',singleProduct);
 
     
   return (
       <Box sx={{display:'flex'}}>
-        <StyledBox>
+        {loading? <Loading/> :
+          <StyledBox>
           <StyledBoxHeader>{singleProduct?.brand}</StyledBoxHeader>
           <StyledBoxHeader>{singleProduct?.name}</StyledBoxHeader> 
           <Box sx={{
@@ -167,5 +170,6 @@ export const DetailedProduct = () => {
             </Box>
           </Box>   
         </StyledBox>
+        }
       </Box>
     )};
